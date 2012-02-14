@@ -62,6 +62,9 @@ fi
 /usr/lib/monitor/ccissraid.pl
 
 %changelog
+* Tue Feb 12 2012 - dolphin@wikimart.ru
+- v0.10.2 Rabbit node memory usage added
+
 * Thu Jan 17 2012 - dolphin@wikimart.ru
 - v0.10.1 Redis hitrate added
 
