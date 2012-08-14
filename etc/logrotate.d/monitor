@@ -1,0 +1,8 @@
+/var/log/monitor.log {
+        copytruncate
+        missingok
+        compress
+        notifempty
+        daily
+        rotate 5
+}

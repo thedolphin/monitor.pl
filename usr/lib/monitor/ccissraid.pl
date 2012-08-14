@@ -27,9 +27,7 @@ sub run {
         @text = `/usr/bin/cciss_vol_status $param`;
         if (scalar(@text) == 0) {
             $status = 0;
-        }
-        else
-        {
+        } else {
             foreach my $line (@text) {
                 chomp $line;
                 if (!( $line =~ /OK\. $/)) {

@@ -1,5 +1,5 @@
 Name:           monitor
-Version:        0.10.1
+Version:        0.11.0
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -11,7 +11,7 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:      noarch
 
 AutoReqProv:    no
-Requires:       bash, perl, perl(Data::Dumper), perl(DBI), perl(DBD::mysql), perl(JSON), perl(JSON::XS)
+Requires:       bash, perl, logrotate, perl(Data::Dumper), perl(DBI), perl(DBD::mysql), perl(JSON), perl(JSON::XS)
 Requires(post):     /sbin/chkconfig
 Requires(preun):    /sbin/chkconfig
 
@@ -33,7 +33,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add monitor
-/etc/init.d/monitor start
 
 %preun
 if [ "$1" = 0 ]
@@ -45,6 +44,7 @@ fi
 %files
 /etc/init.d/monitor
 /etc/monitor.pl
+/etc/logrotate.d/monitor
 %config(noreplace) /usr/bin/monitor.pl
 /usr/lib/monitor/diskstats.pl
 /usr/lib/monitor/memcache.pl
@@ -60,8 +60,12 @@ fi
 /usr/lib/monitor/phpfpm.pl
 /usr/lib/monitor/redis.pl
 /usr/lib/monitor/ccissraid.pl
+/usr/lib/monitor/postfixlog.pl
 
 %changelog
+* Mon Aug 13 2012 - dolphin@wikimart.ru
+- v0.11.0 Added postfix module & logrotate configuration file 4 monitor
+
 * Tue Feb 12 2012 - dolphin@wikimart.ru
 - v0.10.2 Rabbit node memory usage added
 
