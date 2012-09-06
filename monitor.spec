@@ -61,10 +61,14 @@ fi
 /usr/lib/monitor/redis.pl
 /usr/lib/monitor/ccissraid.pl
 /usr/lib/monitor/postfixlog.pl
+/usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
-* Mon Aug 13 2012 - dolphin@wikimart.ru
-- v0.11.0 Added postfix module & logrotate configuration file 4 monitor
+* Mon Sep 06 2012 - dolphin@wikimart.ru
+- v0.11.1 Tool for generating complex zabbix templates for cisco networking hardware
+
+* Mon Aug 13 2012 - dkhlynin@wikimart.ru
+- v0.11.0 Added postfix module & logrotate configuration file
 
 * Tue Feb 12 2012 - dolphin@wikimart.ru
 - v0.10.2 Rabbit node memory usage added
