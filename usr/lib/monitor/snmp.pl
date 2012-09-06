@@ -100,7 +100,7 @@ sub run {
             foreach my $name (keys %{$mib}) {
                 my $result = $self->{'session'}->get_table(-baseoid => $mib->{$name});
                 foreach my $oid (keys %{$result}) {
-                    my $value = $self->patch($oid, $result->{$oid});
+                    my $value = $result->{$oid};
                     $oid =~ s/^$mib->{$name}/$name/;
                     $self->{'zabbix'}->Add($self->{'name'} .'.'. $oid, $value);
                 }
