@@ -69,6 +69,30 @@ sub new {
     return ($self);
 }
 
+sub patch {
+    my $self = shift;
+    my $oid = shift;
+    my $val = shift;
+
+    if (index($oid, $cisco_if->{'ifInOctets'}) == 0) {
+        $val *= 8;
+    }
+
+    if (index($oid, $cisco_if->{'ifOutOctets'}) == 0) {
+        $val = -$val * 8;
+    }
+
+    if (index($oid, $cisco_if->{'ifOutUcastPkts'}) == 0) {
+        $val = -$val;
+    }
+
+    if (index($oid, $cisco_if->{'ifOutErrors'}) == 0) {
+        $val = -$val;
+    }
+
+    return $val;
+}
+
 sub run {
     my $self = shift;
     while (1) {
@@ -76,7 +100,7 @@ sub run {
             foreach my $name (keys %{$mib}) {
                 my $result = $self->{'session'}->get_table(-baseoid => $mib->{$name});
                 foreach my $oid (keys %{$result}) {
-                    my $value = $result->{$oid};
+                    my $value = $self->patch($oid, $result->{$oid});
                     $oid =~ s/^$mib->{$name}/$name/;
                     $self->{'zabbix'}->Add($self->{'name'} .'.'. $oid, $value);
                 }
