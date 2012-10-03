@@ -1,5 +1,5 @@
 Name:           monitor
-Version:        0.11.0
+Version:        0.11.2
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -64,6 +64,9 @@ fi
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Wed Oct 03 2012 - dkhlynin@wikimart.ru 
+- v0.11.2 ccissraid: added CentOS-6 support
+
 * Mon Sep 06 2012 - dolphin@wikimart.ru
 - v0.11.1 Tool for generating complex zabbix templates for cisco networking hardware
 
