@@ -24,13 +24,13 @@ sub run {
         my $el=`/bin/uname -r`;
         $el = substr($el,index($el, '.el')+3, 1);
         if ($el < 6) {
-          opendir(my $dh, '/dev/cciss') || die $!;
-          @names = map {"/dev/cciss/$_"} grep {/c\d+d\d+$/} readdir($dh);
-          closedir $dh
+            opendir(my $dh, '/dev/cciss') || die $!;
+            @names = map {"/dev/cciss/$_"} grep {/c\d+d\d+$/} readdir($dh);
+            closedir $dh
         } else {
-          opendir(my $dh, '/dev') || die $!;
-          @names = map {"/dev/$_"} grep {/sd\D$/} readdir($dh);
-          closedir $dh
+            opendir(my $dh, '/dev') || die $!;
+            @names = map {"/dev/$_"} grep {/sd\D$/} readdir($dh);
+            closedir $dh
         }
         my $param = join(' ', @names);
         @text = `/usr/bin/cciss_vol_status $param`;
