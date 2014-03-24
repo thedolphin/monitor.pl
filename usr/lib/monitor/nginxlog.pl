@@ -17,6 +17,8 @@ sub new {
     return $self;
 }
 
+# log_format monitor '$msec|$http_host|$status|$upstream_status|$upstream_response_time|$upstream_addr|$http_user_agent';
+
 sub run {
     my $self = shift;
     my $zabbix = $self->{'zabbix'};
@@ -45,23 +47,22 @@ sub run {
         if ($running) {
             my $logf = $self->{'logf'} . '.parse';
             rename ($self->{'logf'}, $logf) || die "$!";
-            kill 30, $pid;
+            kill 'USR1', $pid;
             sleep(1);
             open ($fh, "<$logf") || die "$!";
             while (<$fh>) {
-                my ($date, $host, $status, $upstatus, $time, $upstream, $ua) = split /\|/;
+                my ($date, $host, $status, $upstatus, $tt, $upstream, $ua) = split /\|/;
                 $stat{$status}++;
-                if ($ua =~ /Yandex/)        { $uas{'yandex'}++ }
-                elsif ($ua =~ /DoCoMo/)     { $uas{'docomo'}++ }
-                elsif ($ua =~ /msnbot/)     { $uas{'msnbot'}++ }
-                elsif ($ua =~ /Sosospider/) { $uas{'sosospider'}++ }
-                elsif ($ua =~ /Googlebot/)  { $uas{'google'}++ }
-                elsif ($ua =~ /Yahoo/)      { $uas{'yahoo'}++ }
-                elsif ($ua =~ /bingbot/)    { $uas{'bing'}++  }
-                elsif ($ua =~ /Baidu/)      { $uas{'baidu'}++ }
-                elsif ($ua =~ /oBot/)       { $uas{'obot'}++  }
-                else                        { $uas{'other'}++ }
-                if ($upstream =~ /php/) {
+
+                if ($ua =~ /(Yandex|DoCoMo|msnbot|Sosospider|Googlebot|Yahoo|bingbot|Baidu|oBot)/) {
+                    $uas{lc $1}++;
+                } else {
+                    $uas{'other'}++;
+                }
+
+                if ($upstream ne '-') {
+                    my $time = 0;
+                    $time += $_ for split /[ :,]/, $tt;
                     if ($time <= 0.5)                  { $php{'fast'}++  }
                     elsif ($time <= 1 and $time > 0.5) { $php{'1sec'}++  }
                     elsif ($time <= 2 and $time > 1)   { $php{'2sec'}++  }
@@ -85,7 +86,7 @@ sub run {
             $zabbix->Add($self->{'name'} . '.ping', '0');
         }
         $zabbix->Send();
-        sleep(15);
+        sleep(30);
     }
 }
 

@@ -24,6 +24,7 @@ sub new {
 sub run {
     my $self = shift;
     my $sock;
+    my $rsz; my $resp;
     my $info = {};
 
     while (1) {
@@ -31,11 +32,20 @@ sub run {
             if (connect($sock, $self->{'addr'})) {
 
                 $self->{'zabbix'}->Add($self->{'name'} . '.ping', '1');
-                send($sock, "info\r\n", 0);
 
-                while (($_ = <$sock>) && ($_ !~ /^.$/)) {
-                    next if /^\$/;
-                    s/[\r\n]//g;
+                syswrite($sock, "*1\r\n\$4\r\ninfo\r\n");
+                $rsz = sysread($sock, $resp, 2048);
+
+                if ($rsz == 2048) {
+                    print "Have read full buffer, more data may be available\n";
+                    die;
+                }
+
+                while ($resp =~ /([^\r]*)(\r\n)?/g) {
+                    $_ = $1;
+                    next if /^$/;
+                    next if /^[\$#]/;
+
                     if (/(db\d+):keys=(\d+),expires=(\d+)/) {
                         $self->{'zabbix'}->Add($self->{'name'} .'.'. $1 .'_keys', $2);
                         $self->{'zabbix'}->Add($self->{'name'} .'.'. $1 .'_expires', $3);
@@ -45,7 +55,10 @@ sub run {
                         $info->{$key} = $val;
                     }
                 }
-                $self->{'zabbix'}->Add($self->{'name'} . '.hitrate', int($info->{'keyspace_hits'} * 100 / ($info->{'keyspace_hits'} + $info->{'keyspace_misses'})));
+
+                if ($info->{'keyspace_hits'} + $info->{'keyspace_misses'} > 0) {
+                    $self->{'zabbix'}->Add($self->{'name'} . '.hitrate', int($info->{'keyspace_hits'} * 100 / ($info->{'keyspace_hits'} + $info->{'keyspace_misses'})));
+                }
 
             } else {
                 print "connect: $!\n";
@@ -58,7 +71,7 @@ sub run {
         }
 
         $self->{'zabbix'}->Send();
-        sleep(15);
+        sleep(30);
     }
 }
 

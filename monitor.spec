@@ -1,5 +1,5 @@
 Name:           monitor
-Version:        0.11.2
+Version:        0.12.4
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -61,9 +61,28 @@ fi
 /usr/lib/monitor/redis.pl
 /usr/lib/monitor/ccissraid.pl
 /usr/lib/monitor/postfixlog.pl
+/usr/lib/monitor/_template.pl
+/usr/lib/monitor/yml.pl
+/usr/lib/monitor/megaraid.pl
+
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Thu Jan 30 2014 - dolphin@wikimart.ru
+- v0.12.4 Mysql Innodb_row_lock_current_waits fix
+
+* Thu Jan 23 2014 - dolphin@wikimart.ru
+- v0.12.3 NginxLog fixed
+
+* Wed Dec 04 2013 - dolphin@wikimart.ru
+- v0.12.2 Redis protocol fix
+
+* Fri Oct 18 2013 - dolphin@wikimart.ru
+- v0.12.1 Nginxlog module portability fix
+
+* Sat Oct 05 2013 - dolphin@wikimart.ru
+- v0.12.0 Megaraid module added
+
 * Wed Oct 03 2012 - dkhlynin@wikimart.ru 
 - v0.11.2 ccissraid: added CentOS-6 support
 

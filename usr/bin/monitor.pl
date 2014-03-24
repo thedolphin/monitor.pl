@@ -18,6 +18,7 @@ require "snmp.pl";
 require "phpfpm.pl";
 require "redis.pl";
 require "ccissraid.pl";
+require "megaraid.pl";
 require "postfixlog.pl";
 
 use Data::Dumper();
@@ -25,6 +26,10 @@ use Data::Dumper();
 die "Configure me first!"; # And drop this line after configuring
 
 my $z = new Zabbix('host name', 'server address');
+
+# Dump zabbix exchange on console
+# $z->debug();
+
 my @methods;
 push @methods, new Memcache('host', 'port', $z);
 push @methods, new DiskStats($z, {'disk0' => 'cciss/c0d0', 'disk1' => 'dm-0', 'disk2' => 'dm-1'});
@@ -37,8 +42,12 @@ push @methods, new Snmp('host', 'community', $z, 'name', $Snmp::cisco_system, $S
 push @methods, new PhpFpm('host:port or /path/to/socket', '/handler', $z);
 push @methods, new Redis('host', 'port', $z);
 push @methods, new ccissraid($z);
+push @methods, new MegaRaid($z);
 push @methods, new PostfixLog('log file','last rotated log file','pid (probably /var/spool/postfix/pid/master.pid)',$z);
 
 my $m = new Monitor(\@methods);
+
+# Comment out when debugging
 $m->daemonize('/var/run/monitor.pid', '/var/log/monitor.log');
+
 $m->run();

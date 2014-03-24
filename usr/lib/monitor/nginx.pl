@@ -67,7 +67,7 @@ sub run {
         }
 
         $zabbix->Send();
-        sleep(15);
+        sleep(30);
     }
 }
 

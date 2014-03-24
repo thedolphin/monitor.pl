@@ -34,9 +34,13 @@ sub status {
     my $z = $self->{'zabbix'};
     my $dbh = $self->{'dbh'};
 
+# MySQL 5.6 hack for incorrect Innodb_row_lock_current_waits value
+    my $res = $dbh->selectrow_arrayref("select count(*) from information_schema.innodb_lock_waits");
+    my $Innodb_row_lock_current_waits = $res->[0];
+
     my $res = $dbh->selectall_arrayref("show status");
     foreach my $k (@{$res}) {
-        $z->Add($self->{'name'} .'.status.'. $k->[0], $k->[1]);
+        $z->Add($self->{'name'} .'.status.'. $k->[0], $k->[0] eq 'Innodb_row_lock_current_waits' ? $Innodb_row_lock_current_waits : $k->[1]);
     }
 }
 

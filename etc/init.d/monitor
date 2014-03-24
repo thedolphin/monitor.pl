@@ -1,8 +1,20 @@
 #!/bin/bash
+
 #
 # chkconfig: - 55 45
 # description: zabbix monitoring script
 # probe: false
+#
+
+### BEGIN INIT INFO
+# Provides:           zabbix-monitor-pl
+# Required-Start:     $network $remote_fs $syslog
+# Required-Stop:      $network $remote_fs $syslog
+# Default-Start:      2 3 4 5
+# Default-Stop:       0 1 6
+# Short-Description:  Perl-based Zabbix Agent
+# Description:        Perl-based Zabbix Agent
+### END INIT INFO
 
 # Written by Alexander Rumyantsev
 
