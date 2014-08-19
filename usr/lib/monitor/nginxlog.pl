@@ -30,6 +30,7 @@ sub run {
         my %stat = ( 200 => 0, 301 => 0, 302 => 0, 304 => 0, 400 => 0, 404 => 0, 499 => 0, 500 => 0, 502 => 0, 503 => 0, 504 => 0);
         my %uas = ( yandex => 0, docomo => 0, msnbot => 0, sosospider => 0, bing => 0, baidu => 0, obot => 0, other => 0);
         my %php =( fast => 0, '1sec' => 0, '2sec' => 0, '5sec' => 0, '10sec' => 0, slow => 0);
+        my $uptimetotal = 0;
 
         if (open ($fh, "<" . $self->{'pidf'})) {
             $pid = <$fh>;
@@ -63,6 +64,7 @@ sub run {
                 if ($upstream ne '-') {
                     my $time = 0;
                     $time += $_ for split /[ :,]/, $tt;
+                    $uptimetotal += $time;
                     if ($time <= 0.5)                  { $php{'fast'}++  }
                     elsif ($time <= 1 and $time > 0.5) { $php{'1sec'}++  }
                     elsif ($time <= 2 and $time > 1)   { $php{'2sec'}++  }
@@ -81,6 +83,7 @@ sub run {
             foreach my $k (sort keys %php) {
                 $zabbix->Add($self->{'name'} . '.php_' . $k, $php{$k});
             }
+            $zabbix->Add($self->{'name'} . '.php_avg_resp_time', int(($uptimetotal * 1000)/$uprq));
             $zabbix->Add($self->{'name'} . '.ping', '1');
         } else {
             $zabbix->Add($self->{'name'} . '.ping', '0');

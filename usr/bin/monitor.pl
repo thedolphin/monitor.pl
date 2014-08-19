@@ -9,6 +9,7 @@ require "monitor.pl";
 
 require "memcache.pl";
 require "diskstats.pl";
+require "diskstats_lld.pl";
 require "mysql.pl";
 require "nginx.pl";
 require "nginxlog.pl";
@@ -20,6 +21,7 @@ require "redis.pl";
 require "ccissraid.pl";
 require "megaraid.pl";
 require "postfixlog.pl";
+require "haproxy.pl";
 
 use Data::Dumper();
 
@@ -33,6 +35,7 @@ my $z = new Zabbix('host name', 'server address');
 my @methods;
 push @methods, new Memcache('host', 'port', $z);
 push @methods, new DiskStats($z, {'disk0' => 'cciss/c0d0', 'disk1' => 'dm-0', 'disk2' => 'dm-1'});
+push @methods, new DiskStatsLLD($z);
 push @methods, new Mysql('host','port','username','password',$z);
 push @methods, new Nginx('host', 'port', 'http host', 'stub_status path', $z);
 push @methods, new NginxLog('log file', 'pid file', $z);
@@ -44,6 +47,7 @@ push @methods, new Redis('host', 'port', $z);
 push @methods, new ccissraid($z);
 push @methods, new MegaRaid($z);
 push @methods, new PostfixLog('log file','last rotated log file','pid (probably /var/spool/postfix/pid/master.pid)',$z);
+push @methods, new Haproxy($z, '/path/to/stats/socket');
 
 my $m = new Monitor(\@methods);
 

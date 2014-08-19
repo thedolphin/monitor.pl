@@ -27,7 +27,7 @@ sub run {
 
     while(1) {
         my $alert = 0;
-        my @megaout = `/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -LALL -aAll`;
+        my @megaout = `/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -LALL -aAll -NoLog`;
         my $failed = grep(/^State\s+: (?!Optimal)/, @megaout);
 
         if (@megaout == 0) {

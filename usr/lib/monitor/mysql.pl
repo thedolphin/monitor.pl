@@ -38,7 +38,7 @@ sub status {
     my $res = $dbh->selectrow_arrayref("select count(*) from information_schema.innodb_lock_waits");
     my $Innodb_row_lock_current_waits = $res->[0];
 
-    my $res = $dbh->selectall_arrayref("show status");
+    my $res = $dbh->selectall_arrayref("show global status");
     foreach my $k (@{$res}) {
         $z->Add($self->{'name'} .'.status.'. $k->[0], $k->[0] eq 'Innodb_row_lock_current_waits' ? $Innodb_row_lock_current_waits : $k->[1]);
     }
