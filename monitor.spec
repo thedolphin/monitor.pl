@@ -1,5 +1,5 @@
 Name:           monitor
-Version:        0.12.4
+Version:        0.15.0
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -47,6 +47,8 @@ fi
 /etc/logrotate.d/monitor
 %config(noreplace) /usr/bin/monitor.pl
 /usr/lib/monitor/diskstats.pl
+/usr/lib/monitor/diskstats_lld.pl
+/usr/lib/monitor/diskusage.pl
 /usr/lib/monitor/memcache.pl
 /usr/lib/monitor/monitor.pl
 /usr/lib/monitor/mysql.pl
@@ -64,10 +66,26 @@ fi
 /usr/lib/monitor/_template.pl
 /usr/lib/monitor/yml.pl
 /usr/lib/monitor/megaraid.pl
+/usr/lib/monitor/haproxy.pl
 
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Mon Aug 25 2014 - dolphin@wikimart.ru
+- v0.15.0 DuskUsage module added
+
+* Tue Jul 29 2014 - dolphin@wikimart.ru
+- v0.14.0 Haproxy module added
+
+* Wed Jul 14 2014 - dkhlynin@wikimart.ru
+- v0.13.1 Added php_avg_resp_time to NginxLog module
+
+* Wed Jul 09 2014 - dolphin@wikimart.ru
+- v0.13.0 LLD version of DiskStat added
+
+* Wed Jun 04 2014 - dolphin@wikimart.ru
+- v0.12.5 Mysql & Megaraid fixes
+
 * Thu Jan 30 2014 - dolphin@wikimart.ru
 - v0.12.4 Mysql Innodb_row_lock_current_waits fix
 
