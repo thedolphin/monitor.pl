@@ -5,6 +5,8 @@ package Monitor;
 use POSIX qw(setsid);
 use strict;
 
+require("syscall.ph");
+
 sub new {
     my $class = shift;
     my $self = {};
@@ -41,6 +43,7 @@ sub run {
                 } else {
                     $0 = "monitor: $childname";
                     my $ref = $child->{'ref'};
+                    syscall(&SYS_prctl, 1, 2) if $^O eq "linux"; # prctl(PR_SET_PDEATHSIG,SIGINT)
                     $ref->run();
                     sleep(15);
                     exit 1;

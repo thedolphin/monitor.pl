@@ -64,7 +64,7 @@ sub run {
             $z->Send();
         }
 
-        sleep(15);
+        sleep(30);
     }
 }
 

@@ -9,13 +9,19 @@ sub new {
     my $class = shift;
     my $self = {};
 
-    my $host = shift;
-    my $port = shift;
+    my $addr = shift;
 
     $self->{'zabbix'} = shift;
     $self->{'name'} = shift || 'redis';
 
-    $self->{'addr'} = sockaddr_in($port, inet_aton($host)) || die "sockaddr_in: $!\n";
+    if ($addr =~ m|^/|) {
+        $self->{'addr'} = sockaddr_un($addr) || die "sockaddr_un: $!\n";
+        $self->{'addrtype'} = 1;
+    } else {
+        my ($host, $port) = split /:/,$addr;
+        $self->{'addr'} = sockaddr_in($port, inet_aton($host)) || die "sockaddr_in: $!\n";
+        $self->{'addrtype'} = 0;
+    }
 
     bless ($self, $class);
     return $self;
@@ -28,7 +34,11 @@ sub run {
     my $info = {};
 
     while (1) {
-        if (socket($sock, PF_INET, SOCK_STREAM, getprotobyname('tcp'))) {
+
+        if ($self->{'addrtype'} ?
+                socket($sock, PF_UNIX, SOCK_STREAM, 0) :
+                socket($sock, PF_INET, SOCK_STREAM, getprotobyname('tcp'))) {
+
             if (connect($sock, $self->{'addr'})) {
 
                 $self->{'zabbix'}->Add($self->{'name'} . '.ping', '1');

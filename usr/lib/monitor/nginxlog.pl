@@ -83,7 +83,6 @@ sub run {
             foreach my $k (sort keys %php) {
                 $zabbix->Add($self->{'name'} . '.php_' . $k, $php{$k});
             }
-            $zabbix->Add($self->{'name'} . '.php_avg_resp_time', int(($uptimetotal * 1000)/$uprq));
             $zabbix->Add($self->{'name'} . '.ping', '1');
         } else {
             $zabbix->Add($self->{'name'} . '.ping', '0');

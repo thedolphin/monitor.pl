@@ -45,7 +45,7 @@ push @methods, new Rabbit('host', 'port', 'user', 'password', $z);
 push @methods, new Sphinx('host', 9406, $z);
 push @methods, new Snmp('host', 'community', $z, 'name', $Snmp::cisco_system, $Snmp::cisco_bgp, $Snmp::cisco_stackwise, $Snmp::cisco_if);
 push @methods, new PhpFpm('host:port or /path/to/socket', '/handler', $z);
-push @methods, new Redis('host', 'port', $z);
+push @methods, new Redis('host:port or /path/to/socket', $z);
 push @methods, new ccissraid($z);
 push @methods, new MegaRaid($z);
 push @methods, new PostfixLog('log file','last rotated log file','pid (probably /var/spool/postfix/pid/master.pid)',$z);

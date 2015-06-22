@@ -90,7 +90,7 @@ sub run {
         $z->Send();
         $self->{'dbh'}->disconnect();
         undef $self->{'dbh'};
-        sleep(15);
+        sleep(30);
     }
 }
 
