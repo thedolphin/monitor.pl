@@ -1,3 +1,5 @@
+%define _unpackaged_files_terminate_build 0
+
 Name:           monitor
 Version:        0.17.0
 Release:        1%{?dist}
@@ -5,8 +7,6 @@ Summary:        Perl-based Zabbix agent daemon
 
 Group:          Applications/Internet
 License:        GPL
-
-Source0:        monitor.tar.gz
 
 Buildarch:      noarch
 
@@ -17,9 +17,8 @@ Requires:       bash, perl, perl(Data::Dumper), perl(JSON), perl(JSON::XS)
 Perl-based Zabbix agent daemon
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT
-tar -xzvf %{SOURCE0} -C $RPM_BUILD_ROOT
+curl -fL https://api.github.com/repos/thedolphin/monitor.pl/tarball/master |
+tar -xzvf - -C $RPM_BUILD_ROOT --strip 1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
