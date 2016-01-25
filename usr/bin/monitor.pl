@@ -28,10 +28,9 @@ use Data::Dumper();
 
 die "Configure me first!"; # And drop this line after configuring
 
-my $z = new Zabbix('host name', 'server address');
+my $z = new Zabbix('', 'server address');
 
-# Dump zabbix exchange on console
-# $z->debug();
+$z->debug() if $ARGV[0] eq 'debug';
 
 my @methods;
 push @methods, new Memcache('host', 'port', $z);
@@ -52,8 +51,5 @@ push @methods, new PostfixLog('log file','last rotated log file','pid (probably 
 push @methods, new Haproxy($z, '/path/to/stats/socket');
 
 my $m = new Monitor(\@methods);
-
-# Comment out when debugging
-$m->daemonize('/var/run/monitor.pid', '/var/log/monitor.log');
 
 $m->run();

@@ -1,0 +1,11 @@
+[Unit]
+Description=Perl based Zabbix agent daemon
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=simple
+ExecStart=/etc/monitor.pl
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

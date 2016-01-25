@@ -1,29 +1,22 @@
 Name:           monitor
-Version:        0.16.0
+Version:        0.16.1
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
 Group:          Applications/Internet
 License:        GPL
-URL:            http://www.wikimart.ru/
+
 Source0:        monitor.tar.gz
-Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 Buildarch:      noarch
 
 AutoReqProv:    no
-Requires:       bash, perl, logrotate, perl(Data::Dumper), perl(DBI), perl(DBD::mysql), perl(JSON), perl(JSON::XS)
-Requires(post):     /sbin/chkconfig
-Requires(preun):    /sbin/chkconfig
+Requires:       bash, perl, perl(Data::Dumper), perl(JSON), perl(JSON::XS)
 
 %description
 Perl-based Zabbix agent daemon
 
-%prep
-
-%build
-
 %install
-
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT
 tar -xzvf %{SOURCE0} -C $RPM_BUILD_ROOT
@@ -31,21 +24,8 @@ tar -xzvf %{SOURCE0} -C $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-/sbin/chkconfig --add monitor
-
-%preun
-if [ "$1" = 0 ]
-then
-  /etc/init.d/monitor forcestop
-  /sbin/chkconfig --del monitor
-fi
-
 %files
-/etc/init.d/monitor
-/etc/monitor.pl
-/etc/logrotate.d/monitor
-%config(noreplace) /usr/bin/monitor.pl
+%config(noreplace) /etc/monitor.pl
 /usr/lib/monitor/diskstats.pl
 /usr/lib/monitor/diskstats_lld.pl
 /usr/lib/monitor/diskusage.pl
@@ -64,20 +44,27 @@ fi
 /usr/lib/monitor/ccissraid.pl
 /usr/lib/monitor/postfixlog.pl
 /usr/lib/monitor/_template.pl
-/usr/lib/monitor/yml.pl
 /usr/lib/monitor/megaraid.pl
 /usr/lib/monitor/haproxy.pl
+
+/usr/lib/systemd/system/monitor.service
 
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Mon Jan 25 2016 - arum@1c.ru
+- v0.17.0 Added initial PostgreSQL support
+
+* Mon Dec 14 2015 - arum@1c.ru
+- v0.16.1 Switched to systemd, zabbix host name defaults to system hostname
+
 * Mon Aug 25 2014 - dolphin@wikimart.ru
-- v0.15.0 DuskUsage module added
+- v0.15.0 DiskUsage module added
 
 * Tue Jul 29 2014 - dolphin@wikimart.ru
 - v0.14.0 Haproxy module added
 
-* Wed Jul 14 2014 - dkhlynin@wikimart.ru
+* Mon Jul 14 2014 - dkhlynin@wikimart.ru
 - v0.13.1 Added php_avg_resp_time to NginxLog module
 
 * Wed Jul 09 2014 - dolphin@wikimart.ru
@@ -104,16 +91,16 @@ fi
 * Wed Oct 03 2012 - dkhlynin@wikimart.ru 
 - v0.11.2 ccissraid: added CentOS-6 support
 
-* Mon Sep 06 2012 - dolphin@wikimart.ru
+* Thu Sep 06 2012 - dolphin@wikimart.ru
 - v0.11.1 Tool for generating complex zabbix templates for cisco networking hardware
 
 * Mon Aug 13 2012 - dkhlynin@wikimart.ru
 - v0.11.0 Added postfix module & logrotate configuration file
 
-* Tue Feb 12 2012 - dolphin@wikimart.ru
+* Sun Feb 12 2012 - dolphin@wikimart.ru
 - v0.10.2 Rabbit node memory usage added
 
-* Thu Jan 17 2012 - dolphin@wikimart.ru
+* Tue Jan 17 2012 - dolphin@wikimart.ru
 - v0.10.1 Redis hitrate added
 
 * Thu Nov 24 2011 - dkhlynin@wikimart.ru

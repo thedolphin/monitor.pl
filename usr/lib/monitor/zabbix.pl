@@ -5,6 +5,8 @@ package Zabbix;
 use JSON;
 use Socket;
 use Data::Dumper;
+use Sys::Hostname;
+
 use strict;
 
 #
@@ -18,7 +20,7 @@ sub new {
     my $class = shift;
     my $self  = {};
 
-    $self->{'hostname'} = shift;
+    $self->{'hostname'} = shift || hostname;
 
     my $server = shift;
     my $port = shift || 10051;
