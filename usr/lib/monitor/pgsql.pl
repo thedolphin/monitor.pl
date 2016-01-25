@@ -5,8 +5,6 @@
 package PgSQL;
 
 use DBI;
-use Data::Dumper;
-
 use strict;
 
 sub new {

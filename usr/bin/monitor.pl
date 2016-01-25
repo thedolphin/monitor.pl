@@ -38,6 +38,7 @@ push @methods, new DiskStats($z, {'disk0' => 'cciss/c0d0', 'disk1' => 'dm-0', 'd
 push @methods, new DiskStatsLLD($z);
 push @methods, new DiskUsage($z, 'name', 'path to file or dir', 'path to file or dir', ...);
 push @methods, new Mysql('host','port','username','password',$z);
+push @methods, new PgSQL('host (or empty)', 'port (or empty)', 'database name (recommended)', 'login', 'password', $z);
 push @methods, new Nginx('host', 'port', 'http host', 'stub_status path', $z);
 push @methods, new NginxLog('log file', 'pid file', $z);
 push @methods, new Rabbit('host', 'port', 'user', 'password', $z);
