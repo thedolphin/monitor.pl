@@ -1,6 +1,6 @@
 [Unit]
 Description=Perl based Zabbix agent daemon
-After=network.target remote-fs.target nss-lookup.target
+After=network.target network-online.target remote-fs.target
 
 [Service]
 Type=simple

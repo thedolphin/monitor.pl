@@ -158,7 +158,7 @@ sub run {
             $z->Add($self->{'name'} .'.filedesc_usage_percent', 100/($ref->{'fd_total'}/$ref->{'fd_used'}));
             $z->Add($self->{'name'} .'.sockets_total', $ref->{'sockets_total'});
             $z->Add($self->{'name'} .'.sockets_usage_percent', 100/($ref->{'sockets_total'}/$ref->{'sockets_used'}));
-            
+
             if ( (@{$ref->{'partitions'}}) ) {
                 $z->Add($self->{'name'} .'.unparted', '0');
             } else {
@@ -196,4 +196,5 @@ sub run {
         sleep(15);
     }
 }
+
 1;
