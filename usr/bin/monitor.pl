@@ -52,5 +52,5 @@ push @methods, new PostfixLog('log file','last rotated log file','pid (probably 
 push @methods, new Haproxy($z, '/path/to/stats/socket');
 
 my $m = new Monitor(\@methods);
-
+# $m->daemonize('/var/run/monitor.pid', '/var/log/monitor.log');
 $m->run();
