@@ -33,6 +33,7 @@ rm -rf $RPM_BUILD_ROOT
 /usr/lib/monitor/monitor.pl
 /usr/lib/monitor/mysql.pl
 /usr/lib/monitor/nginx.pl
+/usr/lib/monitor/pgsql.pl
 /usr/lib/monitor/nginxlog.pl
 /usr/lib/monitor/process.pl
 /usr/lib/monitor/zabbix.pl
@@ -53,7 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Mon Jan 25 2016 - arum@1c.ru
-- v0.17.0 Added initial PostgreSQL support
+- v0.17.0 Initial PostgreSQL support added
 
 * Mon Dec 14 2015 - arum@1c.ru
 - v0.16.1 Switched to systemd, zabbix host name defaults to system hostname
