@@ -1,5 +1,5 @@
 Name:           monitor
-Version:        0.16.1
+Version:        0.17.0
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
