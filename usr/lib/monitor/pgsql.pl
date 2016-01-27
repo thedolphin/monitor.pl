@@ -189,7 +189,6 @@ sub scans {
 
     while (my ($key, $value) = each %res) {
         $self->{'zabbix'}->Add($self->{'name'} .'.'. $key .'_scans', $value);
-        $self->{'zabbix'}->Add($self->{'name'} .'.'. $key .'_scans_p', int($value * 100 / $total));
     }
 
 }
