@@ -41,6 +41,7 @@ sub run {
             $self->activity;
             $self->cache;
             $self->scans;
+            $self->replication;
 
             $self->selectrow(
                     'select checkpoints_timed, checkpoints_req, buffers_checkpoint,'.
@@ -190,7 +191,30 @@ sub scans {
     while (my ($key, $value) = each %res) {
         $self->{'zabbix'}->Add($self->{'name'} .'.'. $key .'_scans', $value);
     }
+}
 
+sub replication {
+    my $self = shift;
+
+    my $sql = "select state as replication_state,
+                   sent_location - write_location as replica_write_queue,
+                   pg_current_xlog_location() - sent_location as master_send_queue,
+                   trunc(extract(epoch from backend_start)) as replica_start_time from pg_stat_replication";
+
+    my $ref = $self->{'dbh'}->selectall_arrayref($sql, { Slice => {} });
+
+    if (scalar(@{$ref}) > 0) {
+        while (my ($key, $value) = each %{$ref->[0]}) {
+            if ($key eq "replication_state") {
+                $value = $value eq "streaming" ? 1 : 0;
+            } else {
+                $value = 0 if $value < 0;
+            }
+            $self->{'zabbix'}->Add($self->{'name'} .'.'. $key, $value);
+        }
+    } else {
+        $self->{'zabbix'}->Add($self->{'name'} .'.replication_state', 0);
+    }
 }
 
 1;

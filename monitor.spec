@@ -1,7 +1,7 @@
 %define _unpackaged_files_terminate_build 0
 
 Name:           monitor
-Version:        0.17.0
+Version:        0.17.1
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -52,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Mon Feb  8 2016 - arum@1c.ru
+- v0.17.1 PostgreSQL replication basic monitoring
+
 * Mon Jan 25 2016 - arum@1c.ru
 - v0.17.0 Initial PostgreSQL support added
 
