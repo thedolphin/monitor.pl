@@ -12,8 +12,8 @@ sub new {
     my $self = {};
 
     my @dsnav = ();
-    if (shift) { push @dsnav, "host=$_"; }
-    if (shift) { push @dsnav, "port=$_"; }
+    push @dsnav, "host=$_" if $_ = shift;
+    push @dsnav, "port=$_" if $_ = shift;
 
     my $dbname = shift || 'template1';
     push @dsnav, "dbname=$dbname";

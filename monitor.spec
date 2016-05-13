@@ -1,7 +1,7 @@
 %define _unpackaged_files_terminate_build 0
 
 Name:           monitor
-Version:        0.17.1
+Version:        0.17.2
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
