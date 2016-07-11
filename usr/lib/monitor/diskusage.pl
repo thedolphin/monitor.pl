@@ -45,9 +45,9 @@ sub run {
     my $self = shift;
     my $z = $self->{'zabbix'};
 
-    my $du = 0;
-
     while(1) {
+
+        my $du = 0;
         foreach my $file (@{$self->{'paths'}}) {
             my $sz = (stat($file))[7];
             if ( -d _ ) {
