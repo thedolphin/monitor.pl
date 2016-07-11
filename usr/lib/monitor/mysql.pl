@@ -17,8 +17,18 @@ sub new {
     my $class = shift;
     my $self = {};
     my @dsnav = ();
-    if (shift) { push @dsnav, "host=$_"; }
-    if (shift) { push @dsnav, "port=$_"; }
+    my $socket = shift;
+
+    my ($host, $port) = split /:/, $socket;
+    if ($host) {
+        if ( -S $host) {
+            push @dsnav, "mysql_socket=$host";
+        } else {
+            push @dsnav, "host=$_";
+            push @dsnav, "port=$_" if $port;
+        }
+    }
+
     $self->{'dsn'} = "DBI:mysql:" . join(';',@dsnav);
     $self->{'user'} = shift;
     $self->{'pass'} = shift;
