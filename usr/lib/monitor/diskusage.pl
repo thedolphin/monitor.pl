@@ -57,7 +57,7 @@ sub run {
             }
         }
 
-        $z->Add('duskusage.'. $self->{'name'}, $du);
+        $z->Add('diskusage.'. $self->{'name'}, $du);
         $z->Send();
 
         sleep(60);
