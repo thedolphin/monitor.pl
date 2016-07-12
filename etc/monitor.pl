@@ -23,6 +23,9 @@ require "ccissraid.pl";
 require "megaraid.pl";
 require "postfixlog.pl";
 require "haproxy.pl";
+require "ethtool.pl";
+require "mdraid.pl";
+
 
 use Data::Dumper();
 
@@ -35,7 +38,7 @@ $z->debug() if $ARGV[0] eq 'debug';
 my @methods;
 push @methods, new Memcache('host', 'port', $z);
 push @methods, new DiskStats($z, {'disk0' => 'cciss/c0d0', 'disk1' => 'dm-0', 'disk2' => 'dm-1'});
-push @methods, new DiskStatsLLD($z);
+push @methods, new DiskStatsLLD($z, '^(md\d+|[vs]d[a-z]|cciss/c\d+d\d+)$');
 push @methods, new DiskUsage($z, 'name', 'path to file or dir', 'path to file or dir', ...);
 push @methods, new Mysql('host','port','username','password',$z);
 push @methods, new PgSQL('host (or empty)', 'port (or empty)', 'database name (recommended)', 'login', 'password', $z);
@@ -50,6 +53,8 @@ push @methods, new ccissraid($z);
 push @methods, new MegaRaid($z);
 push @methods, new PostfixLog('log file','last rotated log file','pid (probably /var/spool/postfix/pid/master.pid)',$z);
 push @methods, new Haproxy($z, '/path/to/stats/socket');
+push @methods, new Ethtool($z);
+push @methods, new MDRaid($z);
 
 my $m = new Monitor(\@methods);
 # $m->daemonize('/var/run/monitor.pid', '/var/log/monitor.log');

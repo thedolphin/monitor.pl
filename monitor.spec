@@ -1,7 +1,7 @@
 %define _unpackaged_files_terminate_build 0
 
 Name:           monitor
-Version:        0.17.3
+Version:        0.18.0
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -52,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/monitor/cisco_gen_zbx_tmpl.pl
 
 %changelog
+* Tue Jul 12 2016 - a.rumyantsev@rambler-co.ru
+- v0.18.0 Ethtool and MDRaid modules
+
 * Mon Jul 11 2016 - a.rumyantsev@rambler-co.ru
 - v0.17.3 Mysql non-standard socket location support
 

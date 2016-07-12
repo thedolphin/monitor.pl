@@ -11,6 +11,7 @@ sub new {
     my $class = shift;
     my $self = {
         'zabbix' => shift,
+        'diskfilter' => shift,
         'name' => 'diskstats'
     };
 
@@ -50,7 +51,7 @@ sub run {
                 my @values = (split /\ +/, $line)[3..14];
                 my $name = shift @values;
 
-#                next if $name !~ m#^(md\d+|[vs]d[a-z]|cciss/c\d+d\d+)$#;
+                next if $self->{'diskfilter'} && $name !~ /$self->{'diskfilter'}/o;
 
                 push @{$discovery->{'data'}}, {'{#DEVNAME}' => $name};
 
