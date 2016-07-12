@@ -64,11 +64,14 @@ sub run {
                                     'sum(pg_stat_get_db_xact_rollback(oid)) as xact_rollback '.
                                 'from pg_database', '');
 
+            $self->{'dbh'}->disconnect();
+
         } else {
+
             $z->Add($self->{'name'} . '.ping', 0);
         }
+
         $z->Send();
-        $self->{'dbh'}->disconnect();
         undef $self->{'dbh'};
         sleep(30);
     }

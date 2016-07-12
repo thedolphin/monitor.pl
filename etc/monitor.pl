@@ -12,6 +12,7 @@ require "diskstats.pl";
 require "diskstats_lld.pl";
 require "diskusage.pl";
 require "mysql.pl";
+require "pgsql.pl";
 require "nginx.pl";
 require "nginxlog.pl";
 require "rabbit.pl";
@@ -25,7 +26,6 @@ require "postfixlog.pl";
 require "haproxy.pl";
 require "ethtool.pl";
 require "mdraid.pl";
-
 
 use Data::Dumper();
 

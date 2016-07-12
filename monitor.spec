@@ -1,7 +1,7 @@
 %define _unpackaged_files_terminate_build 0
 
 Name:           monitor
-Version:        0.18.0
+Version:        0.18.1
 Release:        1%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -25,35 +25,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config(noreplace) /etc/monitor.pl
-/usr/lib/monitor/diskstats.pl
-/usr/lib/monitor/diskstats_lld.pl
-/usr/lib/monitor/diskusage.pl
-/usr/lib/monitor/memcache.pl
-/usr/lib/monitor/monitor.pl
-/usr/lib/monitor/mysql.pl
-/usr/lib/monitor/nginx.pl
-/usr/lib/monitor/pgsql.pl
-/usr/lib/monitor/nginxlog.pl
-/usr/lib/monitor/process.pl
-/usr/lib/monitor/zabbix.pl
-/usr/lib/monitor/rabbit.pl
-/usr/lib/monitor/sphinx.pl
-/usr/lib/monitor/snmp.pl
-/usr/lib/monitor/phpfpm.pl
-/usr/lib/monitor/redis.pl
-/usr/lib/monitor/ccissraid.pl
-/usr/lib/monitor/postfixlog.pl
-/usr/lib/monitor/_template.pl
-/usr/lib/monitor/megaraid.pl
-/usr/lib/monitor/haproxy.pl
-
 /usr/lib/systemd/system/monitor.service
-
-/usr/share/monitor/cisco_gen_zbx_tmpl.pl
+/usr/lib/monitor/*
+/usr/share/monitor/*
 
 %changelog
 * Tue Jul 12 2016 - a.rumyantsev@rambler-co.ru
 - v0.18.0 Ethtool and MDRaid modules
+- v0.18.1 Small fixes
 
 * Mon Jul 11 2016 - a.rumyantsev@rambler-co.ru
 - v0.17.3 Mysql non-standard socket location support
