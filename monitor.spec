@@ -2,7 +2,7 @@
 
 Name:           monitor
 Version:        0.18.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
 Group:          Applications/Internet
@@ -11,17 +11,21 @@ License:        GPL
 Buildarch:      noarch
 
 AutoReqProv:    no
-Requires:       bash, perl, perl(Data::Dumper), perl(JSON), perl(JSON::XS)
+Requires:       bash, perl, perl(Data::Dumper), perl(JSON)
+
+Source0:        https://github.com/thedolphin/monitor.pl/archive/%{version}.tar.gz
 
 %description
 Perl-based Zabbix agent daemon
 
+%prep
+%setup
+
 %install
-curl -fL https://api.github.com/repos/thedolphin/monitor.pl/tarball/master |
-tar -xzvf - -C $RPM_BUILD_ROOT --strip 1
+%{__cp} -r . $RPM_BUILD_ROOT
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%{__rm} -rf $RPM_BUILD_ROOT
 
 %files
 %config(noreplace) /etc/monitor.pl
