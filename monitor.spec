@@ -19,7 +19,7 @@ Source0:        https://github.com/thedolphin/monitor.pl/archive/%{version}.tar.
 Perl-based Zabbix agent daemon
 
 %prep
-%setup
+%setup -n monitor.pl-%{version}
 
 %install
 %{__cp} -r . $RPM_BUILD_ROOT
