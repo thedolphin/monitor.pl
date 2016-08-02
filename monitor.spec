@@ -1,7 +1,7 @@
 %define _unpackaged_files_terminate_build 0
 
 Name:           monitor
-Version:        0.18.1
+Version:        0.18.2
 Release:        2%{?dist}
 Summary:        Perl-based Zabbix agent daemon
 
@@ -34,6 +34,9 @@ Perl-based Zabbix agent daemon
 /usr/share/monitor/*
 
 %changelog
+* Tue Aug  2 2016 - a.rumyantsev@rambler-co.ru
+- v0.19.0 LLD version of rabbit module
+
 * Tue Jul 12 2016 - a.rumyantsev@rambler-co.ru
 - v0.18.0 Ethtool and MDRaid modules
 - v0.18.1 Small fixes
